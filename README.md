@@ -1,5 +1,7 @@
 # Funbot
-multi-purpose discord that when you type "*leet || *rainbowme" , it posts your profil with some cool effect.
+multi-purpose discord bot that when you type "*leet || *rainbowme" , it posts your profile with some cool effect.
+# created by: @YOPI#8626
+
 # Using:
 - Python 3.9 (64-bit) (You don't need 3.9 but some functions might not work!)
 https://www.python.org/downloads/release/python-382/
@@ -22,10 +24,11 @@ PS: I'm not sure if these commands work properly. Search how to install them you
 - You could change the template picture but I highly discourage you from doing it seeing as you would have to change the positions of avatar pictures which is a bit pain to do.
 
 # COMMANDS
-- [X] `*avatar` : shows the author avatar or the persone you @<?>.
-- [X] `*rainbowme` : some Rainbows on top of your pic (it's a joke)
-- [X] `*leet` : leet mode activated.
-- [ ] `*leet || *rainbow` : make it when u @<?> it changes his profile pic.
+- [X] '*avatar : shows the author avatar or the persone you @<?>.
+- [X] '*rainbowme : some Rainbows on top of your pic (it's a joke)
+- [X] '*leet : leet mode activated.
+- [ ] '*leet || *rainbow` : make it when u @<?> it changes his profile pic.
 - [ ]  : adding some games to the bot.
 - [ ]  : ASCII ART.
-- [ ] `*quote` : generates a random quote on a beautiful pic .
+- [ ]  : 42intra Pic display
+- [ ] '*quote : generates a random quote on a beautiful pic .
