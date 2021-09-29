@@ -113,14 +113,10 @@ async def intra42(ctx):
 async def ascii(ctx):
     content = ctx.message.content
     author = ctx.message.author.id
-    with open('fonts.txt', 'r') as f:
-        lin = f.readlines()
-        del lin[9][3:]
-        print(lin[9],end='')
-    arr = content.split(" ", 2)
+    arr = content.split(" ", 1)
     URL = "https://artii.herokuapp.com/make/?text="
-    if len(arr) == 3:
-        msg = arr[2].strip(" ")
+    if len(arr) == 2:
+        msg = arr[1].strip(" ")
         r = requests.get(URL+msg)
         datax = r.text
         await ctx.send(f'```{datax}```')
