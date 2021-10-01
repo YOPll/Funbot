@@ -41,6 +41,6 @@ PS: I'm not sure if these commands work properly. Search how to install them you
 - [X]  : ASCII ART.
 - [X]  : 42intra Pic display
 - [X] '*quote : generates a random quote on a beautiful pic .
-- [ ]  : Adding some fonts to ascii art
+- [X]  : Adding some fonts to ascii art
 - [ ]  : adding some games to the bot.
 - [ ]  : adding memes to the bot .
