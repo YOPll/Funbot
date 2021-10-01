@@ -28,6 +28,10 @@ PS: I'm not sure if these commands work properly. Search how to install them you
 # Also quotes
 ![image](https://user-images.githubusercontent.com/49567393/134754099-b1f43bd5-ea6d-4597-9ef6-adb2d547ef1b.png)
 
+# ASCII ART
+![Screenshot from 2021-10-01 09-19-52](https://user-images.githubusercontent.com/49567393/135588650-cebb833f-04fc-4821-ae18-c4c7848edf38.png)
+
+
 
 # COMMANDS
 - [X] '*avatar : shows the author avatar or the persone you @<?>.
