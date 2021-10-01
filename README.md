@@ -5,7 +5,7 @@ check **help for more.*
 
 # Using:
 - Python 3.9 (64-bit) (You don't need 3.9 but some functions might not work!)
-https://www.python.org/downloads/release/python-382/
+https://www.python.org/downloads/release/python-397/
 
 - Pillow (Python module):<br />
 Linux/masOS:<br />
