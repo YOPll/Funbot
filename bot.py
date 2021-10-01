@@ -51,7 +51,7 @@ async def leet(ctx, member: discord.Member = None):
     await ctx.send(f'<@{author}> Loading ...')
     with open(f'cache{author}.png','wb') as cache:
         cache.write(r.content)
-    base = Image.open('yopi.png')
+    base = Image.open('resources/leet.png')
     image = Image.open(f'cache{author}.png')
     newimage = image.resize((500,500))
     newimage.paste(base,(0,0),base)
@@ -72,7 +72,7 @@ async def rainbow(ctx, member: discord.Member = None):
     await ctx.send(f'<@{author}> Loading ...')
     with open(f'cache{author}.png','wb') as cache:
         cache.write(r.content)
-    base = Image.open('rainbow.png')
+    base = Image.open('resources/rainbow.png')
     image = Image.open(f'cache{author}.png')
     newimage = image.resize((500,500))
     newimage.paste(base,(0,0),base)
@@ -113,11 +113,17 @@ async def intra42(ctx):
 async def ascii(ctx):
     content = ctx.message.content
     author = ctx.message.author.id
-    arr = content.split(" ", 1)
+    arr = content.split(" ", 2)
     URL = "https://artii.herokuapp.com/make/?text="
-    if len(arr) == 2:
-        msg = arr[1].strip(" ")
-        r = requests.get(URL+msg)
+    if len(arr) == 3:
+        msg = arr[2].strip(" ")
+        if
+        x_int = int (arr[1])
+        urlf = "&font="
+        with open('resources/fonts.txt', 'r') as f:
+            mylist = f.read().splitlines()
+            font = mylist[x_int]
+        r = requests.get(URL+msg+urlf+font)
         datax = r.text
         await ctx.send(f'```{datax}```')
     else:
@@ -132,14 +138,14 @@ async def quotes(ctx):
     json_data = json.loads(response.text)
     quote = json_data[0]['q'] + " -" + json_data[0]['a']
     await ctx.send(f'<@{author}>\n{quote}')
-    base = Image.open('temp2.jpg')
+    base = Image.open('resources/Qtemplate.jpg')
     basee = base.convert('RGB')
     para = textwrap.wrap(quote, width=80)
     W, H = (1280,417)
     draw = ImageDraw.Draw(basee)
     w, h = draw.textsize(quote)
-    font = ImageFont.truetype("Quote.ttf", 40)
-    current_h, pad = 210,30
+    font = ImageFont.truetype("resources/Quote_font.ttf", 40)
+    urrent_h, pad = 210,30
     for line in para:
         x, y = draw.textsize(line, font=font)
         draw.text(((W-x)/2,current_h), line,font = font)
