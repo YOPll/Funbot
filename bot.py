@@ -115,19 +115,26 @@ async def ascii(ctx):
     author = ctx.message.author.id
     arr = content.split(" ", 2)
     URL = "https://artii.herokuapp.com/make/?text="
+    urlf = "&font="
     if len(arr) == 3:
-        msg = arr[2].strip(" ")
-        if
-        x_int = int (arr[1])
-        urlf = "&font="
-        with open('resources/fonts.txt', 'r') as f:
-            mylist = f.read().splitlines()
-            font = mylist[x_int]
-        r = requests.get(URL+msg+urlf+font)
-        datax = r.text
-        await ctx.send(f'```{datax}```')
+        try:
+            msg = arr[2].strip(" ")
+            x_int = int (arr[1])
+            if x_int in range(0,418):
+                with open('resources/fonts.txt', 'r') as f:
+                    mylist = f.read().splitlines()
+                    font = mylist[x_int]
+                r = requests.get(URL+msg+urlf+font)
+                datax = r.text
+                await ctx.send(f'```{datax}```')
+            else:
+                yopi = discord.Embed(description = f'Sorry <@{author}>, Font not found.',color = ctx.author.color)
+                await ctx.send(embed = yopi)
+        except ValueError:
+            yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple *ascii 8 YOPI .',color = ctx.author.color)
+            await ctx.send(embed = yopi)
     else:
-        yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple *ascii YOPI .',color = ctx.author.color)
+        yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple *ascii 8 YOPI .',color = ctx.author.color)
         await ctx.send(embed = yopi)
 
 
