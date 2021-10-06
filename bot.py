@@ -96,17 +96,17 @@ async def intra42(ctx):
     else:
         y = 0
     msg = arr[y].strip(" ")
-    r = requests.get(URL+msg+imgex)
     link = URL+msg+imgex
+    r = requests.get(link)
     if r.status_code  == 200:
         embed=discord.Embed()
         embed.set_image(url=link)
         await ctx.send(embed=embed)
     elif y == 0:
-        yopi = discord.Embed(title = 'Syntax_error', description = f'Sorry <@{author}> Please enter username, Example : *intra42 zyacoubi',color = ctx.author.color)
+        yopi = discord.Embed(title = 'Syntax_error', description = f'Sorry <@{author}> Please enter username, Example : ***intra42 zyacoubi**',color = ctx.author.color)
         await ctx.send(embed = yopi)
     elif r.status_code == 404:
-        yopi = discord.Embed(title = 'User_Not_Found', description = f'Sorry <@{author}> we couldn\'t find {msg} picture.',color = ctx.author.color)
+        yopi = discord.Embed(title = 'User_Not_Found', description = f'Sorry <@{author}> we couldn\'t find **{msg}** picture.',color = ctx.author.color)
         await ctx.send(embed = yopi)
 
 @bot.command()
@@ -128,13 +128,13 @@ async def ascii(ctx):
                 datax = r.text
                 await ctx.send(f'```{datax}```')
             else:
-                yopi = discord.Embed(description = f'Sorry <@{author}>, Font not found.',color = ctx.author.color)
+                yopi = discord.Embed(description = f'Sorry <@{author}>, **Font not found.**',color = ctx.author.color)
                 await ctx.send(embed = yopi)
         except ValueError:
-            yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple *ascii 8 YOPI .',color = ctx.author.color)
+            yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple ***ascii 8 YOPI** .',color = ctx.author.color)
             await ctx.send(embed = yopi)
     else:
-        yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple *ascii 8 YOPI .',color = ctx.author.color)
+        yopi = discord.Embed(description = f'Sorry <@{author}>, Wrong syntax ,Exemple ***ascii 8 YOPI** .',color = ctx.author.color)
         await ctx.send(embed = yopi)
 
 
@@ -152,7 +152,7 @@ async def quotes(ctx):
     draw = ImageDraw.Draw(basee)
     w, h = draw.textsize(quote)
     font = ImageFont.truetype("resources/Quote_font.ttf", 40)
-    urrent_h, pad = 210,30
+    current_h, pad = 210,30
     for line in para:
         x, y = draw.textsize(line, font=font)
         draw.text(((W-x)/2,current_h), line,font = font)
@@ -190,12 +190,13 @@ async def intra(ctx):
 @help.command()
 async def others(ctx):
     yopi = discord.Embed(title = "others", description = "fun ascii art to play with",color = ctx.author.color)
-    yopi.add_field(name = '**Syntax**', value = "*ascii YOURTEXT , *quotes")
+    yopi.add_field(name = '**Syntax**', value = "***ascii (font_num) YOURTEXT** , *quotes")
     await ctx.send(embed = yopi)
 
+@bot.group()
+async def owner(ctx):
+        yopi = discord.Embed(title = 'Owned by YOPI', description = f'Check out my **[twitter](https://twitter.com/YONINUX)** and **[github](https://github.com/YOPll)** ',color = discord.Colour.teal())
+        await ctx.send(embed = yopi)
 
-@bot.command()
-async def whomadeu(ctx):
-    await ctx.send(f'<@254700247471751171>')
 
 bot.run(creds.token)
