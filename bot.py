@@ -36,7 +36,7 @@ async def avatar(ctx, member: discord.Member = None):
             await ctx.send(embed=embed)
         elif member:
             embed=discord.Embed()
-            embed.set_image()
+            embed.set_image(url=member.avatar_url)
             await ctx.send(embed=embed)
 
 
