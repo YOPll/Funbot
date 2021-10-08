@@ -5,6 +5,7 @@ check **help for more.*
 
 # Using:
 - Python 3.9 (64-bit) (You don't need 3.9 but some functions might not work!)
+
 https://www.python.org/downloads/release/python-397/
 
 - Pillow (Python module):<br />
@@ -31,6 +32,9 @@ PS: I'm not sure if these commands work properly. Search how to install them you
 # ASCII ART
 ![Screenshot from 2021-10-01 09-19-52](https://user-images.githubusercontent.com/49567393/135588650-cebb833f-04fc-4821-ae18-c4c7848edf38.png)
 
+# tictactoe
+
+![Screenshot from 2021-10-08 05-28-52](https://user-images.githubusercontent.com/49567393/136498484-02a1b8da-0f72-4054-b8e8-6a704f15006e.png)
 
 
 # COMMANDS
@@ -42,5 +46,4 @@ PS: I'm not sure if these commands work properly. Search how to install them you
 - [X]  : 42intra Pic display
 - [X] '*quote : generates a random quote on a beautiful pic .
 - [X]  : Adding some fonts to ascii art
-- [ ]  : adding some games to the bot.
-- [ ]  : adding memes to the bot .
+- [X]  : adding some games to the bot.
