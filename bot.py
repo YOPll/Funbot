@@ -1,4 +1,5 @@
 import discord
+import random
 import os
 import json
 from discord import client
@@ -16,6 +17,24 @@ bot = commands.Bot(command_prefix='*', description='Your Description')
 bot.remove_command('help')
 
 
+player1 = ""
+player2 = ""
+turn = ""
+gameOver = True
+
+board = []
+winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
+
+
 @bot.event
 async def on_ready():
     print('Logged in as')
@@ -24,7 +43,6 @@ async def on_ready():
     print('Future is loading ...')
     print('----------------------------------------------------------')
     await bot.change_presence(status=discord.Status.online,activity=discord.Game(name='*help || YOPI'))
-
 
 
 @bot.command()
@@ -91,16 +109,14 @@ async def intra42(ctx):
     imgex = ".jpg"
     URL = "https://cdn.intra.42.fr/users/large_"
     x = len(content.split())
-    if x > 1:
-        y = 1
-    else:
-        y = 0
+    y = 1 if (x > 1) else 0
     msg = arr[y].strip(" ")
     link = URL+msg+imgex
     r = requests.get(link)
     if r.status_code  == 200:
         embed=discord.Embed()
         embed.set_image(url=link)
+        embed.set_footer(text=f"Requested By {ctx.author}",icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
     elif y == 0:
         yopi = discord.Embed(title = 'Syntax_error', description = f'Sorry <@{author}> Please enter username, Example : ***intra42 zyacoubi**',color = ctx.author.color)
@@ -108,6 +124,7 @@ async def intra42(ctx):
     elif r.status_code == 404:
         yopi = discord.Embed(title = 'User_Not_Found', description = f'Sorry <@{author}> we couldn\'t find **{msg}** picture.',color = ctx.author.color)
         await ctx.send(embed = yopi)
+
 
 @bot.command()
 async def ascii(ctx):
@@ -148,20 +165,129 @@ async def quotes(ctx):
     base = Image.open('resources/Qtemplate.jpg')
     basee = base.convert('RGB')
     para = textwrap.wrap(quote, width=80)
-    W, H = (1280,417)
     draw = ImageDraw.Draw(basee)
-    w, h = draw.textsize(quote)
+    h = draw.textsize(quote)
     font = ImageFont.truetype("resources/Quote_font.ttf", 40)
     current_h, pad = 210,30
     for line in para:
-        x, y = draw.textsize(line, font=font)
-        draw.text(((W-x)/2,current_h), line,font = font)
+        x = draw.textsize(line, font=font)
+        draw.text(((1280-x)/2,current_h), line,font = font)
         current_h += h + pad
     newimage = basee.resize((1280,417))
     newimage.save(f'final.jpg')
     with open(f'final.jpg','rb') as final:
         await ctx.send(file=discord.File(final,filename=f"final.jpg"))
     remove(f'final.jpg')
+
+
+@bot.command()
+async def tictactoe(ctx, p1: discord.Member):
+    global count
+    global player1
+    global player2
+    global turn
+    global gameOver
+
+    if gameOver:
+        global board
+        board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:",
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:"]
+        turn = ""
+        player1 = ctx.author
+        gameOver = False
+        count = 0
+        if player1 != p1:
+            player2 = p1
+            line = ""
+            for x in range(len(board)):
+                if x == 2 or x == 5 or x == 8:
+                    line += " " + board[x]
+                    await ctx.send(line)
+                    line = ""
+                else:
+                    line += " " + board[x]
+
+            num = random.randint(1, 2)
+            if num == 1:
+                turn = player1
+                await ctx.send("It is <@" + str(player1.id) + ">'s turn.")
+            elif num == 2:
+                turn = player2
+                await ctx.send("It is <@" + str(player2.id) + ">'s turn.")
+        else:
+            await ctx.send("You can't play agains't your self,Please try again.")
+    else:
+        await ctx.send("A game is already in progress! Finish it before starting a new one.")
+
+@bot.command()
+async def place(ctx, pos: int):
+    global turn
+    global player1
+    global player2
+    global board
+    global count
+    global gameOver
+    author = ctx.message.author.id
+    if not gameOver:
+        mark = ""
+        if turn == ctx.author:
+            if turn == player1:
+                mark = ":regional_indicator_x:"
+            elif turn == player2:
+                mark = ":o2:"
+            if 0 < pos < 10 and board[pos - 1] == ":white_large_square:" :
+                board[pos - 1] = mark
+                count += 1
+
+                line = ""
+                for x in range(len(board)):
+                    if x == 2 or x == 5 or x == 8:
+                        line += " " + board[x]
+                        await ctx.send(line)
+                        line = ""
+                    else:
+                        line += " " + board[x]
+
+                checkWinner(winningConditions, mark)
+                if gameOver == True:
+                    await ctx.send( f'<@{author}>wins!:trophy:')
+                elif count >= 9:
+                    gameOver = True
+                    await ctx.send("It's a tie!")
+
+                if turn == player1:
+                    turn = player2
+                elif turn == player2:
+                    turn = player1
+            else:
+                await ctx.send("Be sure to choose an integer between 1 and 9 (inclusive) and an unmarked tile.")
+        else:
+            await ctx.send("It is not your turn.")
+    else:
+        await ctx.send("Please start a new game using the !tictactoe command.")
+
+def checkWinner(winningConditions, mark):
+    global gameOver
+    for condition in winningConditions:
+        if board[condition[0]] == mark and board[condition[1]] == mark and board[condition[2]] == mark:
+            gameOver = True
+
+
+
+@tictactoe.error
+async def tictactoe_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please mention a player for this command.")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please make sure to mention/ping your opponent.")
+
+@place.error
+async def place_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please enter a position you would like to mark.")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please make sure to enter an integer.")
 
 
 @bot.group(invoke_without_command=True)
@@ -173,12 +299,12 @@ async def help(ctx):
     await ctx.send(embed = yopi)
 
 
-
 @help.command()
 async def Fun(ctx):
     yopi = discord.Embed(title = "fun", description = "Fun SHIT you can do to your discord picture or someone on the server",color = ctx.author.color)
     yopi.add_field(name = '**Syntax**', value = "*leet or *rainbow or *avatar")
     await ctx.send(embed = yopi)
+
 
 @help.command()
 async def intra(ctx):
@@ -188,10 +314,26 @@ async def intra(ctx):
 
 
 @help.command()
+async def games(ctx):
+    embed=discord.Embed(
+            name="Help Commands"
+            )
+    embed.add_field(
+            name="Play A Game",
+            value="***tictactoe @your opponent **",
+            inline=False
+            )
+    embed.set_author(name=ctx.author.name,icon_url=ctx.author.avatar_url)
+    embed.set_footer(text=f"Requested By {ctx.author}",icon_url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
+
+
+@help.command()
 async def others(ctx):
     yopi = discord.Embed(title = "others", description = "fun ascii art to play with",color = ctx.author.color)
     yopi.add_field(name = '**Syntax**', value = "***ascii (font_num) YOURTEXT** , *quotes")
     await ctx.send(embed = yopi)
+
 
 @bot.group()
 async def owner(ctx):
